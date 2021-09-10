@@ -9,7 +9,7 @@ window.title("Manga Downloader")
 window.minsize(600,400)
 
 
-'''CÓDIGO REAL'''
+'''PARTE DO WEB SCRAPING'''
 def manga(s):
     
     # Open the Website
@@ -38,7 +38,7 @@ def manga(s):
         if int(num_pgs) <= 25:
             download = '1'
         else:
-            download = (input(f'Esse mangá tem {num_pgs} páginas\nPara continuar o download, coloque 1, para cancelar, coloque 2: '))
+            download = (input(f'This manga have {num_pgs} pages\Enter 1 to continue or 2 to stop: '))
             
             
         if download == '1':
@@ -101,18 +101,18 @@ def manga(s):
                 # Move the image to the manga folder
                 shutil.move(str(os.getcwd()) + f'\\pg{num}.jpg', path + nome_hnt)
                 
-                numberPages = ttk.Label(window, text = "BAIXOU!")
+                numberPages = ttk.Label(window, text = "{nome_hnt} downloaded succesfully")
                 numberPages.grid(column = 0, row = 4)
                 
                 print(f'{num}/{num_pgs}')
 
-            print('\nDownload concluido')
+            print('\nDownload conclude')
         
         else:
-            print('\nDownload cancelado')
+            print('\nDownload stopped')
         
     else:
-        print('O código não existe')
+        print('The code does\'n exist')
 
 
 '''BOTÕES DO TKINTER'''
@@ -129,17 +129,20 @@ def choosePath():
     pathLabel.configure(text = path)
 
 
+'''SAIR DO INTERPRETADOR QUANDO FECHAR A JANELA'''
+def on_closing():
+    quit()
+
 #Botão escolher diretório
-path = "C:\\Users\\Usuário\\Downloads"
-pathButton = ttk.Button(window, text = "Escolher pasta", command = choosePath)
+path = str(os.getcwd())
+pathButton = ttk.Button(window, text = "Choose directory", command = choosePath)
 pathButton.grid(column = 0, row = 0)
 pathLabel = ttk.Label(window, text = path)
 pathLabel.grid(column = 1, row = 0)
 
 
-
 #Label
-label = ttk.Label(window, text = "Coloque o código do mangá")
+label = ttk.Label(window, text = "Enter manga code")
 label.grid(column = 0, row = 1)
 
 #Caixa de texto
@@ -153,4 +156,5 @@ s = name.get()
 button = ttk.Button(window, text = "Download", command = click)
 button.grid(column= 0, row = 3)
 
+window.protocol("WM_DELETE_WINDOW", on_closing)
 window.mainloop()
