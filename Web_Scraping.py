@@ -101,15 +101,15 @@ def manga(s):
                 # Move the image to the manga folder
                 shutil.move(str(os.getcwd()) + f'\\pg{num}.jpg', path + nome_hnt)
                 
-                numberPages = ttk.Label(window, text = "{nome_hnt} downloaded succesfully")
+                numberPages = ttk.Label(window, text = f'{nome_hnt[1:]} downloaded succesfully')
                 numberPages.grid(column = 0, row = 4)
                 
                 print(f'{num}/{num_pgs}')
 
-            print('\nDownload conclude')
+            print('\nDownload completed')
         
         else:
-            print('\nDownload stopped')
+            print('\nDownload interrupted')
         
     else:
         print('The code does\'n exist')
@@ -133,7 +133,7 @@ def choosePath():
 def on_closing():
     quit()
 
-#Botão escolher diretório
+# Choose dir button
 path = str(os.getcwd())
 pathButton = ttk.Button(window, text = "Choose directory", command = choosePath)
 pathButton.grid(column = 0, row = 0)
@@ -141,20 +141,23 @@ pathLabel = ttk.Label(window, text = path)
 pathLabel.grid(column = 1, row = 0)
 
 
-#Label
+# Label
 label = ttk.Label(window, text = "Enter manga code")
 label.grid(column = 0, row = 1)
 
-#Caixa de texto
+# Text box
 name = tk.StringVar()
 nameEntered = ttk.Entry(window, width = 15, textvariable = name)
 nameEntered.grid(column = 0, row = 2)
 s = name.get()
 
 
-#Botão download
+# Download button
 button = ttk.Button(window, text = "Download", command = click)
 button.grid(column= 0, row = 3)
+
+# 147852 manga with 6 pages for tests
+# 298350 manga with a lot of pages for tests
 
 window.protocol("WM_DELETE_WINDOW", on_closing)
 window.mainloop()
