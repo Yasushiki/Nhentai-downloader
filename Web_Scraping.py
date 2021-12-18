@@ -1,4 +1,4 @@
-import requests, bs4, os, shutil
+import requests, bs4, os, shutil, img2pdf, glob
 import tkinter as tk
 from tkinter.filedialog import askdirectory
 from tkinter import ttk
@@ -38,7 +38,8 @@ def manga(s):
         if int(num_pgs) <= 25:
             download = '1'
         else:
-            download = (input(f'This manga have {num_pgs} pages\Enter 1 to continue or 2 to stop: '))
+            os.system("cls")
+            download = (input(f'This manga have {num_pgs} pages\nEnter 1 to continue or 2 to stop: '))
             
             
         if download == '1':
@@ -95,6 +96,8 @@ def manga(s):
                 global path
                 try:
                     os.mkdir(path + nome_hnt)
+                    os.system("cls")
+                    print(f"Downloading {nome_hnt[1:]}\n")
                 except FileExistsError:
                     pass
 
@@ -107,12 +110,22 @@ def manga(s):
                 print(f'{num}/{num_pgs}')
 
             print('\nDownload completed')
+
+            createPDF = "0"
+
+            createPDF = input("Enter 1 if you want to create a PDF or 0 if not: ")
+            if createPDF == "1":
+                local = path + nome_hnt
+                with open(f'{local}\\{nome_hnt}.pdf', 'wb') as f:
+                    f.write(img2pdf.convert(glob.glob(f'{local}/*.jpg')))
+
+                print('\nPDF created!')
         
         else:
             print('\nDownload interrupted')
         
     else:
-        print('The code does\'n exist')
+        print('The code doesn\'t exist')
 
 
 '''BOTÕES DO TKINTER'''
@@ -157,7 +170,10 @@ button = ttk.Button(window, text = "Download", command = click)
 button.grid(column= 0, row = 3)
 
 # 147852 manga with 6 pages for tests
-# 298350 manga with a lot of pages for tests
+# 298350 manga with a lot of pages for
+
+# Window design
+window.config(bg="#AF0029")
 
 window.protocol("WM_DELETE_WINDOW", on_closing)
 window.mainloop()
